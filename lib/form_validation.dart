@@ -10,21 +10,21 @@ class FormValidation extends StatefulWidget {
 class FormValidationState extends State {
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  late GenderList _gender;
+  GenderList? _gender;
   bool _agreement = false;
 
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      appBar: AppBar(title: Text('Form Validation')),
+      appBar: AppBar(title: const Text('Form Validation')),
       body: SingleChildScrollView(
         child: Container(
-            padding: EdgeInsets.all(10.0),
+            padding: const EdgeInsets.all(10.0),
             child:  Form(
                 key: _formKey,
                 child:  Column(
                   children: <Widget>[
-                     Text(
+                     const Text(
                       'Имя пользователя:',
                       style: TextStyle(fontSize: 20.0),
                     ),
@@ -35,8 +35,8 @@ class FormValidationState extends State {
                       }
                       return null;
                     }),
-                     SizedBox(height: 20.0),
-                     Text(
+                     const SizedBox(height: 20.0),
+                     const Text(
                       'Контактный E-mail:',
                       style: TextStyle(fontSize: 20.0),
                     ),
@@ -52,8 +52,8 @@ class FormValidationState extends State {
 
                       return 'Это не E-mail';
                     }),
-                     SizedBox(height: 20.0),
-                     Text(
+                     const SizedBox(height: 20.0),
+                     const Text(
                       'Ваш пол:',
                       style: TextStyle(fontSize: 20.0),
                     ),
@@ -79,7 +79,7 @@ class FormValidationState extends State {
                         });
                       },
                     ),
-                     SizedBox(height: 20.0),
+                     const SizedBox(height: 20.0),
                      CheckboxListTile(
                         value: _agreement,
                         title:  Text('Я ознакомлен' +
@@ -95,7 +95,7 @@ class FormValidationState extends State {
                           setState(() => _agreement = value);
                   },
                      ),
-                     SizedBox(height: 20.0),
+                     const SizedBox(height: 20.0),
                      ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState?.validate() ?? false) {
@@ -118,7 +118,7 @@ class FormValidationState extends State {
                           ));
                         }
                       },
-                      child: Text('Проверить'),
+                      child: const Text('Проверить'),
                     ),
                   ],
                 ),),),
