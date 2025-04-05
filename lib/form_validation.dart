@@ -10,7 +10,7 @@ class FormValidation extends StatefulWidget {
 class FormValidationState extends State {
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  GenderList _gender;
+  late GenderList _gender;
   bool _agreement = false;
 
   Widget build(BuildContext context) {
@@ -29,6 +29,7 @@ class FormValidationState extends State {
                       style: TextStyle(fontSize: 20.0),
                     ),
                      TextFormField(validator: (value) {
+                       if(value == null) return null;
                       if (value.isEmpty) {
                         return 'Пожалуйста, введите свое имя';
                       }
@@ -40,7 +41,8 @@ class FormValidationState extends State {
                       style: TextStyle(fontSize: 20.0),
                     ),
                      TextFormField(validator: (value) {
-                      if (value.isEmpty) return 'Пожалуйста введите свой Email';
+                       if(value == null) return null;
+                       if (value.isEmpty) return 'Пожалуйста введите свой Email';
 
                       String p =
                           "[a-zA-Z0-9+.\_\%-+]{1,256}@[a-zA-Z0-9][a-zA-Z0-9-]{0,64}(.[a-zA-Z0-9][a-zA-Z0-9-]{0,25})+";
@@ -59,7 +61,8 @@ class FormValidationState extends State {
                       title: const Text('Мужской'),
                       value: GenderList.male,
                       groupValue: _gender,
-                      onChanged: (GenderList value) {
+                      onChanged: (GenderList? value) {
+                        if(value == null) return null;
                         setState(() {
                           _gender = value;
                         });
@@ -69,7 +72,8 @@ class FormValidationState extends State {
                       title: const Text('Женский'),
                       value: GenderList.female,
                       groupValue: _gender,
-                      onChanged: (GenderList value) {
+                      onChanged: (GenderList? value) {
+                        if(value == null) return null;
                         setState(() {
                           _gender = value;
                         });
@@ -85,11 +89,16 @@ class FormValidationState extends State {
                                     ? ''
                                     : 'а') +
                             ' с документом "Согласие на обработку персональных данных" и даю согласие на обработку моих персональных данных в соответствии с требованиями "Федерального закона О персональных данных № 152-ФЗ".'),
-                        onChanged: (bool value) => setState(() => _agreement = value)),
+                        onChanged: (bool? value) {
+                          if(value == null) return null;
+
+                          setState(() => _agreement = value);
+                  },
+                     ),
                      SizedBox(height: 20.0),
-                     RaisedButton(
+                     ElevatedButton(
                       onPressed: () {
-                        if (_formKey.currentState.validate()) {
+                        if (_formKey.currentState?.validate() ?? false) {
                           Color color = Colors.red;
                           String text;
 
@@ -102,19 +111,17 @@ class FormValidationState extends State {
                             color = Colors.green;
                           }
 
-                          _scaffoldKey.currentState.hideCurrentSnackBar();
-                          _scaffoldKey.currentState.showSnackBar(SnackBar(
+                          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text(text),
                             backgroundColor: color,
                           ));
                         }
                       },
                       child: Text('Проверить'),
-                      color: Colors.blue,
-                      textColor: Colors.white,
                     ),
                   ],
-                ))),
+                ),),),
       ),
     );
   }
